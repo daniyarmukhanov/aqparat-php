@@ -12,9 +12,15 @@ require_once __DIR__ . '/db_connect.php';
 
 // connecting to db
 $db = new DB_CONNECT();
+$page=0;
+if(isset($_POST["page"])){
+    $page=$_POST["page"];
+}
+$start=$page*15;
+$end=$start+15;
 
 // get all products from products table
-$result = mysql_query("SELECT * FROM  `news` ORDER BY  `news`.`time` DESC LIMIT 0 , 15") or die(mysql_error());
+$result = mysql_query("SELECT * FROM  `news` ORDER BY  `news`.`time` DESC LIMIT ".$start.",".$end) or die(mysql_error());
 
 // check for empty result
 if (mysql_num_rows($result) > 0) {
