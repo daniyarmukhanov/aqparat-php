@@ -17,7 +17,7 @@ if(isset($_POST["page"])){
     $page=$_POST["page"];
 }
 $start=$page*15;
-$end=$start+15;
+$end=15;
 
 // get all products from products table
 $result = mysql_query("SELECT * FROM  `news` ORDER BY  `news`.`time` DESC LIMIT ".$start.",".$end) or die(mysql_error());
@@ -34,7 +34,6 @@ if (mysql_num_rows($result) > 0) {
         $news["id"] = $row["id"];
         $news["title"] = $row["title"];
         $news["description"] = $row["description"];
-        $news["text"] = $row["text"];
         $news["time"] = $row["time"];
         $news["photo"] = $row["photo"];
         $news["resource_id"] = $row["resource_id"];
