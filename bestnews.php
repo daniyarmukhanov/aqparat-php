@@ -13,18 +13,14 @@ require_once __DIR__ . '/db_connect.php';
 // connecting to db
 $db = new DB_CONNECT();
 $page=0;
-$where="";
 if(isset($_POST["page"])){
     $page=$_POST["page"];
-}
-if(isset($_POST["where"])){
-    $where=$_POST["where"];
 }
 $start=$page*15;
 $end=15;
 
 // get all products from products table
-$result = mysql_query("SELECT * FROM  `news` ".$where." ORDER BY  `news`.`time` DESC LIMIT ".$start.",".$end) or die(mysql_error());
+$result = mysql_query("SELECT * FROM  `bestnews` ORDER BY  `bestnews`.`id`" ) or die(mysql_error());
 
 // check for empty result
 if (mysql_num_rows($result) > 0) {
@@ -37,11 +33,13 @@ if (mysql_num_rows($result) > 0) {
         $news = array();
         $news["id"] = $row["id"];
         $news["title"] = $row["title"];
-        $news["description"] = $row["description"];
-        $news["time"] = $row["time"];
-        $news["photo"] = $row["photo"];
-        $news["resource_id"] = $row["resource_id"];
         $news["link"] = $row["link"];
+        $news["time"] = $row["time"];
+        $news["imagelink"] = $row["imagelink"];
+        $news["resource"] = $row["resource"];
+        $news["res_image"] = $row["res_imagelink"];
+        $news["shared"] = $row["shared"];
+        $news["fulltext"] = $row["fulltext"];
 
         // push single product into final response array
         array_push($response["news"], $news);
@@ -54,7 +52,7 @@ if (mysql_num_rows($result) > 0) {
 } else {
     // no products found
     $response["success"] = 0;
-    $response["message"] = "No products found";
+    $response["message"] = "No news found";
 
     // echo no users JSON
     echo json_encode($response);
